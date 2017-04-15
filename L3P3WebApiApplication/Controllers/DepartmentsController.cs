@@ -17,9 +17,15 @@ namespace L3P3WebApiApplication.Controllers
         private VirtualTraineeDbEntities db = new VirtualTraineeDbEntities();
 
         // GET: api/Departments
-        public IQueryable<Department> GetDepartments()
+        public List<Department> GetDepartments()
         {
-            return db.Departments;
+            var departments = db.Departments.AsEnumerable();
+            List<Department> list = departments.Select(x => new Department()
+            {
+                Id = x.Id, Name = x.Name, EntryAt = x.EntryAt
+            }).ToList();
+
+            return list;
         }
 
         // GET: api/Departments/5
@@ -74,7 +80,10 @@ namespace L3P3WebApiApplication.Controllers
         [ResponseType(typeof(Department))]
         public IHttpActionResult PostDepartment(Department department)
         {
-            if (!ModelState.IsValid)
+
+            department.Id = Guid.NewGuid();
+            department.EntryAt = DateTime.Now;
+                if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
