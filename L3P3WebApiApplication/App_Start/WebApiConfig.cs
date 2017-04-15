@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace L3P3WebApiApplication
@@ -11,6 +12,9 @@ namespace L3P3WebApiApplication
         {
             // Web API configuration and services
 
+            //formatters
+            config.Formatters.Clear();
+            config.Formatters.Add(new JsonMediaTypeFormatter());
             // Web API routes
             config.MapHttpAttributeRoutes();
 
